@@ -3,6 +3,7 @@ package http_request
 import (
 	"bytes"
 	"encoding/json"
+	"encoding/xml"
 	"fmt"
 	"io"
 	"net/http"
@@ -17,7 +18,7 @@ const (
 	DELETE ApiMethod = "DELETE"
 )
 
-func HttpRequest[T any, U any](path string, method ApiMethod, token string, data T, result *U) error {
+func HttpRequest[T any, U any](path string, method ApiMethod, data T, result *U) error {
 
 	// Marshal the data into JSON and create a request body
 	var requestBody io.Reader
@@ -34,9 +35,8 @@ func HttpRequest[T any, U any](path string, method ApiMethod, token string, data
 	}
 
 	// Set the request headers
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Accept", "application/json, text/plain, */*")
-	req.Header.Set("authorization", "Bearer "+token)
+	req.Header.Set("Accept", "*/*")
+	req.Header.Set("Referer", "http://192.168.1.254/")
 
 	// Send the request
 	client := &http.Client{}
@@ -65,8 +65,8 @@ func HttpRequest[T any, U any](path string, method ApiMethod, token string, data
 		return nil
 	}
 
-	if err := json.Unmarshal(body, &result); err != nil {
-		return fmt.Errorf("failed to unmarshal JSON: %v", err)
+	if err := xml.Unmarshal(body, &result); err != nil {
+		return fmt.Errorf("failed to unmarshal XML: %v", err)
 	}
 
 	return nil
