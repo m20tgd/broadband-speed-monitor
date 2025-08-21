@@ -1,0 +1,7 @@
+{
+    "name": "Broadband Speed Monitor",
+    "build": {
+        "dockerfile": "Dockerfile.dev"
+    },
+    "runArgs": ["--env-file", ".env"]
+}
