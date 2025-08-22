@@ -1,7 +1,6 @@
 services:
   broadband-speed-monitor:
     image: broadband-speed-monitor
-    restart: unless-stopped
     build: 
       context: ..
       dockerfile: ./docker/Dockerfile

@@ -27,20 +27,14 @@ func main() {
 	if err != nil {
 		log.Println(err)
 	}
-	rawRateStr, err := url.QueryUnescape(result.StatusRate.Value)
-	if err != nil {
-		log.Println(err)
-		return
-	}
 
-	parsedValue, _ := parseArrayVal(rawRateStr)
+	parsedValue, _ := parseArrayVal(result.StatusRate.Value)
 
 	rateStr := parsedValue[1][0]
 	rates := strings.Split(rateStr, ";")
 	upRate, _ := strconv.Atoi(rates[0])
 	downRate, _ := strconv.Atoi(rates[1])
-	log.Printf("Upload Rate: %+v Mbps", upRate/1000000)
-	log.Printf("Download Rate: %+v Mbps", downRate/1000000)
+	log.Printf("\t%+v Mbps \t%+v Mbps", upRate/1000000, downRate/1000000)
 }
 
 func parseArrayVal(raw string) ([][]string, error) {
